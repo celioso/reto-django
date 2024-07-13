@@ -26,4 +26,15 @@
 
 13. para migrarlo `python manage.py migrate` 
 
-[Django 4 by example (4th Edition) ](https://github.com/PacktPublishing/Django-4-by-example)
+[Django 4 by example (4th Edition) github](https://github.com/PacktPublishing/Django-4-by-example)
+
+[Django 4 by example (4th Edition) book](https://books.google.es/books?id=GLaEEAAAQBAJ&pg=PA171&hl=es&source=gbs_selected_pages&cad=1#v=onepage&q&f=false)
+
+### Creacion de superusuario
+
+crear el super usuario `python manage.py createsuperuser`
+se crea el usuario: **root** o el que desee, luego pide el **correo**  y un **password**
+
+### crear un nuevo registro ORM
+
+crea la clase `python manage.py shell`
