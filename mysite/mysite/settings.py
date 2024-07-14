@@ -107,7 +107,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC' # GMT-5
+TIME_ZONE = 'America/Bogota' # UCT
 
 USE_I18N = True
 
@@ -128,8 +128,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'celioso0@gmail.com'
-EMAIL_HOST_PASSWORD = 'kptc dwyb ubgk gqxq'
+EMAIL_HOST_USER = 'prueba@gmail.com'
+EMAIL_HOST_PASSWORD = 'xxxx xxxx xxxx xxxx'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
