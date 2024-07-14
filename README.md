@@ -38,3 +38,23 @@ se crea el usuario: **root** o el que desee, luego pide el **correo**  y un **pa
 ### crear un nuevo registro ORM
 
 crea la clase `python manage.py shell`
+
+### enviar correo 
+
+se debe instalar `pip install python-dotenv`
+
+**enviar un correo de prueba**
+
+```shell
+(venv) PS C:\Users\OneDrive\Escritorio\programación\django\mysite> python manage.py shell
+Python 3.12.2 (tags/v3.12.2:6abddd9, Feb  6 2024, 21:26:36) [MSC v.1937 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.       
+(InteractiveConsole)
+>>> from django.core.mail import send_mail
+>>> send_mail('Prueba Django','Este es el body de mi mensaje','dedondeseenvia@gmail.com',['prueba1@gmail.com','prueba@hotmail.com'],fail_silently=False)
+1
+>>>
+```
+
+crea el modelo : `python manage.py makemigrations blog`
+Aplicar la migracion: `python manage.py migrate`
