@@ -58,3 +58,32 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 crea el modelo : `python manage.py makemigrations blog`
 Aplicar la migracion: `python manage.py migrate`
+
+## 3. Extending Your Blog Aplication
+
+Agragamos funciones tagging al proyecto
+
+se Instala django-taggit: `pip install django-taggit`
+
+Agregar tags
+
+```shell
+(venv) PS C:\Users\celio\OneDrive\Escritorio\programación\django\mysite> python manage.py shell
+Python 3.12.2 (tags/v3.12.2:6abddd9, Feb  6 2024, 21:26:36) [MSC v.1937 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.       
+(InteractiveConsole)
+>>> from blog.models import Post
+>>> post = Post.objects.get(id=1)
+>>> print(post)
+Aprendiendo Django
+>>> post.tags.add('music', 'jazz', 'django')  
+>>> post.tags.all()
+<QuerySet [<Tag: django>, <Tag: music>, <Tag: jazz>]>
+>>>
+```
+
+para eliminar tags `post.tags.remove('django')`
+
+[Documentacion de agregacion](https://docs.djangoproject.com/en/5.1/topics/db/aggregation/)
+
+instalar markdown `pip install markdown`
