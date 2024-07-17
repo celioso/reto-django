@@ -82,8 +82,67 @@ Aprendiendo Django
 >>>
 ```
 
-para eliminar tags `post.tags.remove('django')`
+eliminar tags `post.tags.remove('django')`
 
 [Documentacion de agregacion](https://docs.djangoproject.com/en/5.1/topics/db/aggregation/)
 
 instalar markdown `pip install markdown`
+se realiza la coneccion con una base de datos se utiliza psycopg2-binary `pip install psycopg2-binary`
+
+la exportar los dato de db.sqlite3 a postgres `python manage.py dumpdata --indent=2 --output=mysite_data.json`, pero si hay algun problema por los acentos se utiliza `python -xutf8 manage.py dumpdata --indent=2 --output=mysite_data.json`
+
+cargamos los datos `python manage.py loaddata mysite_data.json`
+
+```shell
+(venv) PS C:\Users\celio\OneDrive\Escritorio\programación\django\mysite> python manage.py shell
+Python 3.12.2 (tags/v3.12.2:6abddd9, Feb  6 2024, 21:26:36) [MSC v.1937 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.       
+(InteractiveConsole)
+>>> from blog.models import Post
+>>> Post.objects.filter(title__search='django')
+<QuerySet [<Post: Aprendiendo Django>]>
+>>> Post.objects.filter(body__search='django')  
+<QuerySet []>
+>>> Post.objects.filter(body__search='java')   
+<QuerySet []>
+>>> Post.objects.annotate(search=SearchVector('title', 'body),)filter(search=
+'django')
+  File "<console>", line 1
+    Post.objects.annotate(search=SearchVector('title', 'body),)filter(search='django')
+                                                                             
+       ^
+SyntaxError: unterminated string literal (detected at line 1)
+>>> Post.objects.annotate(search=SearchVector('title', 'body))filter(search='django')  
+  File "<console>", line 1
+    Post.objects.annotate(search=SearchVector('title', 'body))filter(search='django')
+                                                                             
+      ^
+SyntaxError: unterminated string literal (detected at line 1)
+>>> Post.objects.annotate(search=SearchVector('title', 'body),).filter(search='django') 
+  File "<console>", line 1
+    Post.objects.annotate(search=SearchVector('title', 'body),).filter(search='django')
+                                                                             
+        ^
+SyntaxError: unterminated string literal (detected at line 1)
+>>> Post.objects.annotate(search=SearchVector('title', 'body'),).filter(search='django') 
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+NameError: name 'SearchVector' is not defined
+>>> Post.objects.annotate(search=SearchVector('title', 'body'),).filter(search='django') 
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+NameError: name 'SearchVector' is not defined
+>>> Post.objects.annotate(search=searchvector('title', 'body'),).filter(search='django') 
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+NameError: name 'searchvector' is not defined
+>>> Post.objects.annotate(search=SearchVector('title', 'body'),).filter(searcpot SearchVector
+  File "<console>", line 1
+    from django.contrib.postgres.search impot SearchVector
+                                        ^^^^^
+SyntaxError: invalid syntax
+>>> from django.contrib.postgres.search import SearchVector
+>>> Post.objects.annotate(search=SearchVector('title', 'body'),).filter(search='django')
+<QuerySet [<Post: Aprendiendo Django>]>
+>>>
+```
