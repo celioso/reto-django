@@ -8,6 +8,7 @@ from django.views.decorators.http import require_POST
 from taggit.models import Tag
 from django.db.models import Count
 from django.contrib.postgres.search import SearchVector
+from decouple import config
 
 #class PostListView(ListView):
     #"""
@@ -69,7 +70,7 @@ def post_share(request, post_id):
             subject = f"{cd['name']} recommends you read {post.title}"
             message = f"Read {post.title} at {post_url}\n\n" \
                     f"{cd['name']}\'s comments: {cd['comments']}"
-            send_mail(subject, message, 'prueba@gmail.com',
+            send_mail(subject, message, config('USER_EMAIL'),
                     [cd['to']])
             sent = True
     else:
