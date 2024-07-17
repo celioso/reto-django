@@ -93,6 +93,122 @@ la exportar los dato de db.sqlite3 a postgres `python manage.py dumpdata --inden
 
 cargamos los datos `python manage.py loaddata mysite_data.json`
 
+### Python Decouple: separación estricta de la configuración del código
+
+Usar un archivo .env para gestionar las variables de entorno es una práctica común y segura. Aquí te muestro cómo hacerlo en un proyecto Django.
+
+### 1. Instalar python-decouple
+
+Para manejar las variables de entorno desde un archivo .env, puedes usar la biblioteca python-decouple. Primero, instala python-decouple:
+
+`pip install python-decouple`
+
+[python-decouple 3.8](https://pypi.org/project/python-decouple/)
+
+### 2. Crear un Archivo `.env`
+
+Crea un archivo llamado .env en la raíz de tu proyecto (al mismo nivel que manage.py). Añade las siguientes líneas con tus configuraciones de base de datos:
+
+```makefile
+DB_NAME=nombre_de_tu_base_de_datos
+DB_USER=tu_usuario_de_base_de_datos
+DB_PASSWORD=tu_contraseña_de_base_de_datos
+DB_HOST=localhost
+DB_PORT=5432
+```
+### 3. Modificar `settings.py` para Usar `python-decouple`
+
+Modifica tu archivo `settings.py` para usar `python-decouple` para cargar las variables de entorno:
+
+```python
+from decouple import config
+from pathlib import Path
+
+# Construir rutas dentro del proyecto
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT'),
+    }
+}
+```
+### 4. Verificar y Aplicar Migraciones
+
+Después de configurar el archivo `.env` y modificar `settings.py`, verifica si puedes conectarte a la base de datos y aplicar migraciones:
+
+```bash
+python manage.py migrate
+```
+
+### Ejemplo Completo
+
+Archivo .env:
+
+```makefile
+DB_NAME=mi_base_de_datos
+DB_USER=mi_usuario
+DB_PASSWORD=mi_contraseña
+DB_HOST=localhost
+DB_PORT=5432
+```
+`settings.py:`
+
+```python
+from decouple import config
+from pathlib import Path
+
+# Construir rutas dentro del proyecto
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT'),
+    }
+}
+```
+### Ejecutar migraciones:
+
+`python manage.py migrate`
+
+### Asegurar el Archivo `.env`
+
+Es importante que el archivo `.env` no se suba al control de versiones (por ejemplo, a Git). Para evitarlo, añade la línea `.env` a tu archivo `.gitignore`:
+
+bash
+Copy code
+```bash
+# .gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+
+# Environ
+.env
+```
+Con esto, tu proyecto Django debería poder conectarse a la base de datos utilizando las credenciales almacenadas en el archivo `.env`.
+
+## buscando en múltiples campos
+
 ```shell
 (venv) PS C:\Users\celio\OneDrive\Escritorio\programación\django\mysite> python manage.py shell
 Python 3.12.2 (tags/v3.12.2:6abddd9, Feb  6 2024, 21:26:36) [MSC v.1937 64 bit (AMD64)] on win32
@@ -105,42 +221,6 @@ Type "help", "copyright", "credits" or "license" for more information.
 <QuerySet []>
 >>> Post.objects.filter(body__search='java')   
 <QuerySet []>
->>> Post.objects.annotate(search=SearchVector('title', 'body),)filter(search=
-'django')
-  File "<console>", line 1
-    Post.objects.annotate(search=SearchVector('title', 'body),)filter(search='django')
-                                                                             
-       ^
-SyntaxError: unterminated string literal (detected at line 1)
->>> Post.objects.annotate(search=SearchVector('title', 'body))filter(search='django')  
-  File "<console>", line 1
-    Post.objects.annotate(search=SearchVector('title', 'body))filter(search='django')
-                                                                             
-      ^
-SyntaxError: unterminated string literal (detected at line 1)
->>> Post.objects.annotate(search=SearchVector('title', 'body),).filter(search='django') 
-  File "<console>", line 1
-    Post.objects.annotate(search=SearchVector('title', 'body),).filter(search='django')
-                                                                             
-        ^
-SyntaxError: unterminated string literal (detected at line 1)
->>> Post.objects.annotate(search=SearchVector('title', 'body'),).filter(search='django') 
-Traceback (most recent call last):
-  File "<console>", line 1, in <module>
-NameError: name 'SearchVector' is not defined
->>> Post.objects.annotate(search=SearchVector('title', 'body'),).filter(search='django') 
-Traceback (most recent call last):
-  File "<console>", line 1, in <module>
-NameError: name 'SearchVector' is not defined
->>> Post.objects.annotate(search=searchvector('title', 'body'),).filter(search='django') 
-Traceback (most recent call last):
-  File "<console>", line 1, in <module>
-NameError: name 'searchvector' is not defined
->>> Post.objects.annotate(search=SearchVector('title', 'body'),).filter(searcpot SearchVector
-  File "<console>", line 1
-    from django.contrib.postgres.search impot SearchVector
-                                        ^^^^^
-SyntaxError: invalid syntax
 >>> from django.contrib.postgres.search import SearchVector
 >>> Post.objects.annotate(search=SearchVector('title', 'body'),).filter(search='django')
 <QuerySet [<Post: Aprendiendo Django>]>
