@@ -12,4 +12,4 @@ class PostAdmin(admin.ModelAdmin):
     date_hierarchy = "published"
     ordering = ["status", "published"]
 
-    pag 30
+    pag 30  ds
