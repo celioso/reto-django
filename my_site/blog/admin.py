@@ -11,5 +11,4 @@ class PostAdmin(admin.ModelAdmin):
     raw_id_fields = ["author"]
     date_hierarchy = "published"
     ordering = ["status", "published"]
-
-    pag 30  ds
+ erreo teest
