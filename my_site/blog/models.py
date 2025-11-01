@@ -1,7 +1,7 @@
-from django.db import models
+7from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-
+#324
 class PublishedManager(models.Manager):
     def get_queryset(selt):
         return super().get_queryset().filter(status=Post.Status.PUBLISHED)
