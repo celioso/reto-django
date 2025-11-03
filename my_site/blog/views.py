@@ -1,4 +1,4 @@
 from django.shortcuts import render
 
 # Create your views here.
-34 gsgsgs
+34 gsgs
